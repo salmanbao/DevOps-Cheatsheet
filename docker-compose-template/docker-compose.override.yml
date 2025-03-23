@@ -1,0 +1,14 @@
+services:
+  frontend:
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./services/frontend:/app
+    command: npm run dev
+
+  backend:
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./services/backend:/app
+    command: npm run dev

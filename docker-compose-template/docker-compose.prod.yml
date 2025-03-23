@@ -1,0 +1,10 @@
+services:
+  frontend:
+    image: frontend:prod
+    ports:
+      - "80:80"
+
+  backend:
+    image: backend:prod
+    ports:
+      - "5000:5000"

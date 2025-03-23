@@ -1,0 +1,6 @@
+services:
+  debug-tool:
+    image: busybox
+    command: sleep infinity
+    profiles:
+      - debug

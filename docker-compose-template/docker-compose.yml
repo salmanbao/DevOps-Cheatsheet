@@ -1,0 +1,42 @@
+version: "3.9"
+
+x-common-env: &default-env
+  environment:
+    NODE_ENV: production
+    LOG_LEVEL: info
+
+services:
+  frontend:
+    build: ./services/frontend
+    ports:
+      - "8080:80"
+    <<: *default-env
+
+  backend:
+    build: ./services/backend
+    ports:
+      - "5000:5000"
+    <<: *default-env
+    environment:
+      DB_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: mydb
+    secrets:
+      - db_password
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+
+volumes:
+  db-data:
