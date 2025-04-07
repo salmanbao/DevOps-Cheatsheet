@@ -102,6 +102,59 @@
 | `docker network disconnect <net> <container>` | Disconnect container from network |
 | `-p <host>:<container>` | Map ports (e.g. `-p 8080:80`) |
 
+## 🌐 Networking Bonus
+
+| Command | Description |
+|--------|-------------|
+
+| `docker network create -d host my-host-network` | Create a host network named `my-host-network` |
+| `docker network create -d host --label environment=production my-labeled-host-network` | Create a host network with a label |
+| `docker network create -d host --opt com.docker.network.host_binding_ipv4=192.168.1.100 my_host_network` | Create a host network with a custom IP address |
+| `docker run --rm -d --network host --dns 8.8.8.8 --dns 8.8.4.4 --name my_container my_image` | Run a container in the host network with custom DNS servers |
+| `docker run --rm -it --network host --cap-add NET_ADMIN nicolaka/netshoot tcpdump -i any` | Run a container in the host network and capture network traffic |
+| `docker run --rm -d --network host --user $(id -u):$(id -g) --name my_container my_image` | Run a container in the host network with the same user ID as the host |
+
+
+| `docker network create -d bridge mybridge` | Create a bridge network |
+| `docker network create --driver bridge --internal my_internal_bridge` | Creating an Internal Bridge Network |
+| `docker network create --driver bridge --ipv6 --subnet=2001:db8:1::/64 ipv6_enabled_bridge` | Creating a Bridge Network with IPv6 Support |
+| `docker network create --driver bridge --opt com.docker.network.driver.mtu=1400 my_mtu_bridge` | Creating a Bridge Network with a Specific MTU |
+| `docker network create --driver bridge --opt com.docker.network.bridge.enable_ip_masquerade=false no_masquerade_bridge` | Creating a Bridge Network without IP Masquerading |
+| `docker network create --driver bridge --subnet=192.168.100.0/24 --gateway=192.168.100.1 my_custom_bridge` | Creating a Custom Bridge Network with Specific Subnet and Gateway |
+| `docker network create --driver bridge --opt com.docker.network.bridge.enable_icc=false icc_disabled_bridge` | Creating a Bridge Network without Inter-Container Communication (ICC) |
+| `docker network create --driver bridge --ipv6 --subnet=2001::contentReference[oaicite:66]{index=66}` | Creating a Bridge Network with IPv6-Only Support |
+| `docker network create -d bridge --subnet=192.168.0/24 --gateway=192.168.0.1 --ip-range=192.168.100.128/25 --opt com.docker.network.bridge.name=custom-bridge custom_mybridge_network` | Creating a Custom Bridge Network with Specific Subnet and Gateway |
+
+
+| `docker swarm init --advertise-addr <MANAGER-IP>` | Initialize a swarm |
+| `docker network create -d overlay myoverlay` | Create an overlay network |
+| `docker service scale my_service=5` | Scale a Service on an Overlay Network |
+| `docker network create -d overlay --attachable myoverlay` | Create an attachable overlay network |
+| `docker network create -d overlay --internal my_internal_overlay` | Creating an Internal Overlay Network |
+| `docker network create -d overlay --opt encrypted my_secure_overlay` | Create an encrypted overlay network |
+| `docker network create -d overlay --subnet=192.168.100.0/24 my_custom_subnet_overlay` | Create an overlay network with a custom subnet |
+| `docker service create --name my_global_service --network my_overlay --mode global my_image` | Deploy a Global Service on an Overlay Network |
+| `docker service create --name my_service --network my_overlay --publish published=8080,target=80 my_image` | Deploy a Service with Published Ports on an Overlay Network |
+| `docker network create -d overlay --subnet=10.0.9.0/24 --gateway=10.0.9.1 --attachable --internal custom_overlay_network` | Creating an Overlay Network for Multi-Host Communication in a Swarm |
+
+
+| `docker network create -d macvlan --subnet=237.84.2.178/24 -o parent=eth0 mymacvlan` | Create a macvlan network |
+| `docker run -itd --network my_macvlan_bridge --ip 192.168.1.100 --name my_container my_image` | run a container with a specific IP address within a Macvlan network |
+| `docker network create -d macvlan --subnet=192.168.50.0/24 --gateway=192.168.50.1 -o parent=eth0.50 my_macvlan_vlan50` | Create a Macvlan Network in 802.1Q Trunk Bridge Mode |
+| `docker network create -d macvlan --subnet=192.168.1.0/24 --gateway=192.168.1.1 --aux-address="reserved1=192.168.1.2" -o parent=eth0 my_macvlan_exclude` | Create a Macvlan Network with Excluded Addresses |
+| `docker network create -d macvlan --subnet=192.168.1.0/24 --ip-range=192.168.1.128/25 --gateway=192.168.1.1 -o parent=eth0 my_macvlan_range` | Create a Macvlan Network with IP Ranges |
+| `docker network create -d macvlan --subnet=192.168.1.0/24 --gateway=192.168.1.1 --subnet=2001:db8:1::/64 --gateway=2001:db8:1::1 -o parent=eth0 my_macvlan_dualstack` | Create a Macvlan Network with Dual-Stack IPv4 and IPv6 |
+| `docker network create -d macvlan --internal --subnet=192.168.1.0/24 --gateway=192.168.1.1 -o parent=eth0 my_macvlan_internal` | Create an Internal Macvlan Network |
+| `docker network create -d macvlan --subnet=192.168.1.0/24 --gateway=192.168.1.1 -o parent=eth0 -o com.docker.network.driver.mtu=1400 my_macvlan_mtu` | Create a Macvlan Network with a Specific MTU |
+| `docker network create -d macvlan --subnet=237.84.2.178/24 --gateway=89.207.132.170 -o parent=eth0 mymacvlan` | Create a macvlan network with gateway |
+| `docker network create -d macvlan --subnet=237.84.2.178/24 --gateway=89.207.132.170 -o parent=eth0 --ip-range=237.84.2.178/24 mymacvlan` | Create a macvlan network with gateway and IP range |
+| `docker network create -d macvlan --subnet=237.84.2.178/24 --gateway=89.207.132.170 -o parent=eth0 --aux-addresses=eth1=237.84.2.178 mymacvlan` | Create a macvlan network with auxiliary addresses |
+| `docker network create -d macvlan --subnet=237.84.2.178/24 --gateway=89.207.132.170 -o parent=eth0 --driver-opt=macvlan_mode=bridge mymacvlan` | Create a macvlan network with driver options |
+| `docker network create -d macvlan --subnet=237.84.2.178/24 --gateway=89.207.132.170 -o parent=eth0 --driver-opt=macvlan_mode=passthru mymacvlan` | Create a macvlan network with driver options |
+| `docker network create -d macvlan --subnet=237.84.2.178/24 --gateway=89.207.132.170 -o parent=eth0 --driver-opt=macvlan_mode=vepa mymacvlan` | Create a macvlan network with driver options |
+| `docker network create -d macvlan --subnet=237.84.2.178/24 --gateway=89.207.132.170 -o parent=eth0 --driver-opt=macvlan_mode=bridge,vepa mymacvlan` | Create a macvlan network with driver options |
+
+
 ---
 
 ## ⚙️ Use Configuration Contexts
