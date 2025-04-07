@@ -21,6 +21,7 @@
 
 | Command | Description |
 |--------|-------------|
+| `docker images` | List local images |
 | `docker pull <image>` | Download image from Docker Hub |
 | `docker build .` | Build image from Dockerfile |
 | `docker build -t <name> .` | Build image from Dockerfile |
@@ -65,6 +66,9 @@
 | `docker inspect <container>` | View detailed config info |
 | `docker top <container>` | Show container processes |
 | `docker stats` | Live container resource usage |
+| `docker diff <container>` | Show container file changes |
+| `docker export <container> > my-container.tar` | Export container to .tar file |
+| `docker import <tar> my-container` | Import .tar file to container |
 
 ---
 
@@ -228,11 +232,14 @@
 | `docker system prune` | Remove unused data |
 | `docker system prune -a` | Remove all data |
 | `docker system df` | Show disk usage |
+| `docker system prune --all` | Remove all data |
 | `docker image prune` | Remove dangling images |
 | `docker image prune -a` | Remove all images |
 | `docker container prune` | Remove stopped containers |
 | `docker volume prune` | Remove unused volumes |
 | `docker system prune --volumes` | Remove unused volumes |
+| `docker system prune --all --volumes` | Remove all data and volumes |
+| `docker system prune --all --volumes --force` | Remove all data and volumes |
 | `docker network prune` | Remove unused networks |
 
 ---
@@ -250,3 +257,260 @@
 | `-p` | Port mapping |
 
 ---
+
+## 🧱 Additional General Docker Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker version` | Show detailed version info |
+| `docker login` | Log into a Docker registry |
+| `docker logout` | Log out of a Docker registry |
+| `docker search <term>` | Search for images on Docker Hub |
+
+---
+
+## 🧪 Additional Docker Compose Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker-compose config` | Validate and view resolved Compose config |
+| `docker-compose down -v` | Also remove named volumes |
+| `docker-compose stop` | Stop services without removing them |
+| `docker-compose rm` | Remove stopped services |
+| `docker-compose run <svc>` | Run one-off command in a new container |
+| `docker-compose restart` | Restart services |
+| `docker-compose pull` | Pull service images defined in Compose |
+| `docker-compose push` | Push service images to registry |
+| `docker-compose kill` | Force stop containers |
+
+---
+
+## 📦 Additional Docker Image Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker history <image>` | Show image layer history |
+| `docker inspect <image>` | Detailed image metadata |
+| `docker image ls` | Alias of `docker images` |
+| `docker image rm` | Alias of `docker rmi` |
+
+---
+
+## ⚙️ Advanced Container Run Flags
+
+| Flag | Description |
+|------|-------------|
+| `--privileged` | Give extended Linux capabilities |
+| `--cap-add <cap>` | Add a Linux capability |
+| `--device` | Map host devices to container |
+| `--tmpfs` | Mount a tmpfs |
+| `--read-only` | Make container FS read-only |
+| `--ulimit` | Set container resource limits |
+| `--security-opt` | Set security options |
+| `--security-context` | Set security context |
+| `--entrypoint` | Override entrypoint |
+| `--workdir` | Set working directory |
+
+## 🧱 Docker CLI Extensions
+
+| Command | Description |
+|--------|-------------|
+| `docker extension ls` | List installed Docker Desktop extensions |
+| `docker extension install <publisher>/<extension>` | Install Docker extension |
+| `docker extension uninstall <name>` | Uninstall Docker extension |
+| `docker extension upgrade <name>` | Upgrade Docker extension |
+
+---
+
+## 🔐 Credential Store Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker-credential-<helper> store` | Store credentials securely |
+| `docker-credential-<helper> get` | Retrieve stored credentials |
+| `docker-credential-<helper> erase` | Delete stored credentials |
+
+---
+
+## 🔄 BuildKit (docker buildx) Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker buildx ls` | List all builder instances |
+| `docker buildx create` | Create a new builder |
+| `docker buildx use <builder>` | Set active builder |
+| `docker buildx build` | Advanced builds with caching, multi-arch, etc. |
+
+---
+
+## 📜 Checkpoint and Restore (Experimental)
+
+| Command | Description |
+|--------|-------------|
+| `docker checkpoint create <container> <checkpoint>` | Create checkpoint from container |
+| `docker start --checkpoint <checkpoint>` | Restore container from checkpoint |
+
+---
+
+## 📋 Detailed Container Resource Flags
+
+| Flag | Description |
+|------|-------------|
+| `--memory` | Set memory limit |
+| `--memory-swap` | Set memory + swap limit |
+| `--memory-reservation` | Set soft memory limit |
+| `--cpus` | Limit number of CPUs |
+| `--cpu-shares` | Relative CPU share weight |
+| `--cpuset-cpus` | Restrict container to CPU cores |
+| `--blkio-weight` | Set block IO weight |
+
+---
+
+## 🧠 Docker Events and System Monitoring
+
+| Command | Description |
+|--------|-------------|
+| `docker events` | Stream real-time Docker events |
+| `docker inspect --format '{{ .State.Running }}'` | Query state with Go templating |
+| `docker system events` | Low-level system-wide events |
+| `docker container stats --no-stream` | Instant snapshot of container stats |
+
+---
+
+## 🌐 Miscellaneous Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker context export` | Export Docker context |
+| `docker context import` | Import a Docker context |
+| `docker image inspect <image>` | Detailed image info |
+| `docker trust <command>` | Manage Docker Content Trust |
+| `docker config create` | Create a Swarm config |
+| `docker config ls` | List Swarm configs |
+| `docker service update` | Update a running service in Swarm |
+
+
+---
+
+## 🔍 General Management with Formatting
+
+| Command | Description |
+|--------|-------------|
+| `docker info --format '{{.ServerVersion}}'` | Display Docker server version using Go templates |
+| `docker system info --format '{{.OSType}}'` | Display OS type of Docker host in formatted output |
+
+---
+
+## ⚙️ Additional Runtime Flags
+
+| Flag | Description |
+|------|-------------|
+| `--log-driver` | Specify logging backend (`json-file`, `syslog`, etc.) |
+| `--log-opt` | Set options for the logging driver (e.g., `max-size`, `max-file`) |
+| `--restart` | Restart policy for container (`no`, `on-failure`, `unless-stopped`, `always`) |
+| `--env-file` | Load environment variables from a file |
+| `--add-host` | Add a custom host-to-IP mapping |
+| `--shm-size` | Set size of `/dev/shm` shared memory (e.g. for PostgreSQL) |
+
+---
+
+## 🧪 Docker Compose Advanced Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker-compose config --services` | List all service names in config |
+| `docker-compose config --volumes` | List all named volumes in config |
+| `docker-compose port <svc> <port>` | Print mapped host port for a service container port |
+| `docker-compose images` | List images used in services (may require plugin) |
+| `docker-compose events` | Stream container and Compose events (plugin) |
+
+---
+
+## 🧠 Container Lifecycle & Meta Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker container rename` | Rename an existing container |
+| `docker container update` | Update container resource limits live |
+| `docker container wait` | Wait until a container exits |
+| `docker container pause` | Pause container processes |
+| `docker container unpause` | Resume paused container processes |
+
+---
+
+## 🧱 Docker Context Extras
+
+| Command | Description |
+|--------|-------------|
+| `docker context inspect <name>` | Show detailed Docker context info |
+
+---
+
+## 🧰 Developer / Tooling Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker events --since '10m'` | Show Docker events from last 10 minutes |
+| `docker inspect <obj> --format '{{json .}}'` | Inspect object and return raw JSON output |
+
+---
+
+## 🧼 Builder Prune (Cleanup)
+
+| Command | Description |
+|--------|-------------|
+| `docker builder prune` | Remove unused BuildKit builder cache |
+
+
+---
+
+## 🧪 Experimental & Edge Features (Optional)
+
+| Command | Description |
+|--------|-------------|
+| `docker system dial-stdin` | Used internally for Docker CLI communication |
+| `docker scan --dependency-tree` | Show dependency tree for image scan results |
+| `docker sbom diff` | Compare SBOMs between two images (if supported) |
+| `docker debug` | Launch Docker Desktop with debugging mode |
+| `docker container exec --detach-keys` | Override the default detach key sequence |
+| `docker logs --timestamps` | Include timestamps in container logs output |
+
+---
+
+## 🧩 Registry & Signing Commands
+
+| Command | Description |
+|--------|-------------|
+| `docker trust sign <image>` | Sign image using Docker Content Trust |
+| `docker trust inspect <image>` | View trusted signatures for image |
+| `docker trust revoke <image>` | Revoke trust for an image tag |
+
+---
+
+## 🛠️ Internal Filtering & Formatting Examples
+
+| Command | Description |
+|--------|-------------|
+| `docker image ls --format '{{.Repository}}:{{.Tag}}'` | Custom output formatting |
+| `docker container ls --filter "status=exited"` | Filter containers by status |
+| `docker network ls --filter driver=bridge` | List networks with specific driver |
+| `docker stats --format "{{.Name}}: {{.MemUsage}}"` | Custom memory usage stats |
+
+---
+
+## 📦 OCI-Oriented and Advanced Build Features
+
+| Command | Description |
+|--------|-------------|
+| `docker buildx bake` | Advanced build workflows using bake files |
+| `docker image save --format oci` | Save image in OCI-compliant format |
+| `docker image import --format oci` | Import OCI image tarball |
+
+---
+
+## 🧩 Compose Bonus: Override & Profiles
+
+| Command | Description |
+|--------|-------------|
+| `docker-compose -f base.yml -f override.yml up` | Compose layering with overrides |
+| `docker-compose --profile debug up` | Enable optional profile-based services |
